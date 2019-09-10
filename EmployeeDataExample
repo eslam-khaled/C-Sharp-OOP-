@@ -1,0 +1,151 @@
+using System;
+
+namespace EmployeeSalary
+{
+
+    public abstract class Employee
+    {
+        private static string name;
+        private static double salary;
+
+        public string Name
+        {
+            get => name;
+            set
+            {
+                if (value == null)
+                {
+                    Console.WriteLine("please enter valid name!");
+                }
+                else
+                {
+                    name = value;
+                }
+
+            }
+        }
+
+        protected static double Salary
+        {
+            get => salary;
+            set
+            {
+                if (value < 1 || value > 10000)
+
+                    throw new ArgumentOutOfRangeException(
+                       $"{nameof(value)} must be between 1 and 10.000!");
+                else
+                {
+                    salary = value;
+                }
+            }
+        }
+
+        public void getSalary()
+        {
+            Console.WriteLine("The name : (" + Name + ") got a salary : (" + Salary + ")");
+        }
+        public abstract void setSalary();
+    }
+
+    public class FullTime : Employee
+    {
+        private const double Commession = 10.0 / 100;
+        public override void setSalary()
+        {
+            Console.WriteLine("Enter the name");
+            Name = Console.ReadLine();
+            Console.WriteLine("Enter the main salary!");
+            Salary = int.Parse(Console.ReadLine());
+            Salary = Salary * Commession + Salary;
+        }
+    }
+
+    public class PartTime : Employee
+    {
+        private int hours;
+        private int hourPrice;
+        public int Hours
+        {
+            get => hours;
+            set
+            {
+                if (hours < 100)
+                {
+                    throw new ArgumentOutOfRangeException(
+                       $"{nameof(value)} must be between 1 and 100!");
+                }
+                else
+                {
+                    hours = value;
+                }
+            }
+        }
+
+        public int HourPrice
+        {
+            get => hourPrice;
+            set
+            {
+                if (hourPrice < 10 || hourPrice > 180)
+                {
+                    throw new ArgumentOutOfRangeException(
+                       $"{nameof(value)} must be between 10 and 180!");
+                }
+                else
+                {
+                    hourPrice = value;
+                }
+            }
+        }
+
+        public override void setSalary()
+        {
+            Console.WriteLine("Enter the name");
+            Name = Console.ReadLine();
+            Console.WriteLine("Enter the hours!");
+            Hours = int.Parse(Console.ReadLine());
+            Console.WriteLine("Enter the hours price!");
+            HourPrice = int.Parse(Console.ReadLine());
+            Salary = Hours * HourPrice;
+        }
+
+    }
+
+    public class Test
+    {
+         public
+            void too()
+        {
+            Console.WriteLine("Eslam");
+        }
+    }
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Test tee = new Test();
+            tee.too();
+            Console.WriteLine("Please select a time type, for full time write 1 & for part time write 2");
+            int timeType = int.Parse(Console.ReadLine());
+            if (timeType == 1)
+            {
+                FullTime ful = new FullTime();
+                ful.setSalary();
+                ful.getSalary();
+            }
+            else if (timeType == 2)
+            {
+                PartTime par = new PartTime();
+                par.setSalary();
+                par.getSalary();
+            }
+            else
+            {
+                Console.WriteLine("Wrong Choice, Please choose value 1 OR 2");
+            }
+        }
+    }
+}
+
+
